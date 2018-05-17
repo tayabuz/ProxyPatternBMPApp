@@ -1,67 +1,34 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace ProxyPatternBMPApp
 {
-    public class ImageProxy:Image
+    public class ImageProxy
     {
-        public Size sizeImage = new Size();
-        private static string path = "";
-        private int getImageHeight()
+        private string path;
+        
+        public Size GetSizeOfImage()
         {
-            int result = 0;
-            var t = Regex.IsMatch(ImageFileName(), @"\S[0-9]\D[0-9]");
-            if (t == false) { throw new FormatException(); }
-            string trimmed = ImageFileName().Trim();
+            Size sizeImage = new Size();
+            int Height = 0;
+            var t = Regex.IsMatch(path, @"\S[0-9]\D[0-9]");
+            string trimmed = path.Trim();
             string trimResult = trimmed.Substring(0, trimmed.IndexOf('.'));
-            var regex = new Regex(@"\d*\Z");
-            if (regex.IsMatch(trimResult) == false)
-            {
-                throw new FormatException();
-            }
-            result = Convert.ToInt32(regex.Match(trimResult).Value);
-            return result;
+            var regexH = new Regex(@"\d*\Z");
+            Height = Convert.ToInt32(regexH.Match(trimResult).Value);
+            int Width = 0;
+            var regexW = new Regex(@"\S[0 - 9].");
+            Width = Convert.ToInt32(regexW.Match(path).Value);
+            sizeImage.Height = Height;
+            sizeImage.Width = Width;
+            return sizeImage;
         }
 
-        private int getImageWidth()
+        public ImageProxy(string filename)
         {
-            int result = 0;
-            var t = Regex.IsMatch(ImageFileName(), @"\S[0-9].[0-9]");
-            if (!t) { throw new FormatException(); }
-            var regex = new Regex(@"\S[0 - 9].");
-            if (regex.IsMatch(ImageFileName()) == false)
-            {
-                throw new FormatException();
-            }
-            result = Convert.ToInt32(regex.Match(ImageFileName()).Value);
-            return result;
+            path = filename;
         }
 
-        public static string ImageFileNameStatic()
-        {
-            return path;
-        }
-
-        private void SetSizeOfImage()
-        {
-            sizeImage.Height = getImageHeight();
-            sizeImage.Width = getImageWidth();
-        }
-
-        public ImageProxy()
-        {
-            path = Console.ReadLine();
-            if (path.Contains(".bmp"))
-            {
-                ImageFileName();
-                SetSizeOfImage();
-            }
-            else { throw new InvalidOperationException("No file name and path in string"); }
-        }
-
-        public string ImageFileName()
-        {
-            return ImageFileNameStatic();
-        }
     }
 }
+
