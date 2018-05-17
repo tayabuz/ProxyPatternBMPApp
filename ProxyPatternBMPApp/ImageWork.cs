@@ -1,45 +1,25 @@
-﻿using System;
 using System.Drawing;
 
 namespace ProxyPatternBMPApp
 {
-    public class ImageWork:Image
+    public class ImageWork
     {
-        public Size sizeImage = new Size();
         private Bitmap bmp;
-        private int getImageHeight()
+
+        private string path;
+        public ImageWork(string p)
         {
-            return bmp.Height;
+            path = p;
         }
 
-        private int getImageWidth()
+        public Size GetSizeOfImage()
         {
-            return bmp.Width;
+            bmp = new Bitmap(path);
+            Size sizeImage = new Size();
+            sizeImage.Height = bmp.Height;
+            sizeImage.Width = bmp.Width;
+            return sizeImage;
         }
 
-        public string ImageFileName()
-        {
-            var result = ImageProxy.ImageFileNameStatic();
-            return result;
-        }
-
-        private void SetSizeOfImage()
-        {
-            try
-            {
-                bmp = new Bitmap(ImageFileName());
-                sizeImage.Height = getImageHeight();
-                sizeImage.Width = getImageWidth();
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("This file is no exist");
-            }
-        }
-
-        public ImageWork()
-        {
-            SetSizeOfImage();
-        }
     }
 }
