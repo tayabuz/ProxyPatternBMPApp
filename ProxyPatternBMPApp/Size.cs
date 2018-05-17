@@ -2,13 +2,11 @@ namespace ProxyPatternBMPApp
 {
     public class Size
     {
-        private int width;
-        private int height;
+        public int Height { get; set; }
 
-        public int Height { get => height; set => height = value; }
-        public int Width { get => width; set => width = value; }
+        public int Width { get; set; }
 
-        public string getImageSize()
+        public override string ToString()
         {
             string result = "Width: " + Width + " | " + "Height: "+ Height;
             return result;
