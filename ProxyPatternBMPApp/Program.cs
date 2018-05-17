@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ProxyPatternBMPApp
 {
@@ -9,32 +9,27 @@ namespace ProxyPatternBMPApp
             bool OperationStateIsCorrect = false;
             while (!OperationStateIsCorrect)
             {
+                var path = Console.ReadLine();
                 try
                 {
-                    CreateImageProxy();
+                    ImageProxy proxy = new ImageProxy(path);
+                    Console.WriteLine(proxy.GetSizeOfImage().ToString());
                     OperationStateIsCorrect = true;
                 }
                 catch (FormatException e)
                 {
-                    ImageWork work = new ImageWork();
-                    Console.WriteLine(work.sizeImage.getImageSize());
+                    ImageWork work = new ImageWork(path);
+                    Console.WriteLine(work.GetSizeOfImage().ToString());
                     OperationStateIsCorrect = true;
                 }
-                catch (InvalidOperationException ex)
+                catch (ArgumentException e)
                 {
-                    Console.WriteLine(ex.Message);
-                    OperationStateIsCorrect = false;
+                    Console.WriteLine("This file is no exist");
                 }
 
             }
             Console.WriteLine("");
             Console.ReadLine();
-        }
-
-        static void CreateImageProxy()
-        { 
-            ImageProxy proxy = new ImageProxy();
-            Console.WriteLine(proxy.sizeImage.getImageSize());
         }
     }
 }
